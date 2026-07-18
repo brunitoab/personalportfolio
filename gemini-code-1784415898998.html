@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bruno Aresu Barella | Game Producer & Systems Engineer</title>
+    
+    <!-- Importamos una fuente Pixel Art legible -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            /* Estética Indie Pixel Art - Light Mode (Gameboy / Retro) */
+            --bg-color: #f4f4eb;
+            --text-main: #1a1a1a;
+            --text-muted: #555555;
+            --accent: #ff0044; /* Rojo Arcade */
+            --accent-hover: #cc0036;
+            --card-bg: #ffffff;
+            --border-color: #1a1a1a;
+            --shadow-offset: 6px;
+        }
+
+        /* Variables para el Dark Mode (Cyberpunk / Night Arcade) */
+        [data-theme="dark"] {
+            --bg-color: #121218;
+            --text-main: #f0f0f0;
+            --text-muted: #aaaaaa;
+            --accent: #00e5ff; /* Cian Neón */
+            --accent-hover: #00b3cc;
+            --card-bg: #1e1e26;
+            --border-color: #f0f0f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Pixelify Sans', monospace, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.4;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* Espaciados mucho más reducidos y compactos */
+        header, section {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem; 
+        }
+
+        /* --- SWITCHERS (Top Left & Top Right) --- */
+        .controls-container {
+            position: fixed;
+            top: 15px;
+            width: 100%;
+            pointer-events: none; /* Para no bloquear clics en el centro */
+            z-index: 1000;
+        }
+
+        .switch-wrapper {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--card-bg);
+            padding: 6px 12px;
+            border: 3px solid var(--border-color);
+            box-shadow: 4px 4px 0px var(--border-color);
+            pointer-events: auto;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        /* Ubicaciones */
+        .theme-switch { left: 20px; }
+        .lang-switch { right: 20px; }
+
+        .control-label {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .control-label.active {
+            color: var(--accent);
+        }
+
+        /* Diseño Pixel para los Toggles */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 24px;
+        }
+
+        .switch input { opacity: 0; width: 0; height: 0; }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: var(--bg-color);
+            border: 3px solid var(--border-color);
+            transition: .2s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 12px;
+            width: 12px;
+            left: 3px;
+            bottom: 3px;
+            background-color: var(--border-color);
+            transition: .2s;
+        }
+
+        input:checked + .slider { background-color: var(--bg-color); }
+        input:checked + .slider:before { 
+            transform: translateX(24px); 
+            background-color: var(--accent);
+        }
+
+        /* --- HERO SECTION --- */
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+            padding-top: 5rem;
+        }
+
+        .hero-text { flex: 1; }
+
+        .hero-image { flex-shrink: 0; }
+
+        .hero-image img {
+            width: 240px;
+            height: 240px;
+            object-fit: cover;
+            /* Bordes cuadrados para la vibra pixel art */
+            border-radius: 0;
+            border: 4px solid var(--border-color);
+            box-shadow: var(--shadow-offset) var(--shadow-offset) 0px var(--accent);
+            transition: transform 0.1s ease, box-shadow 0.1s ease;
+        }
+
+        .hero-image img:hover {
+            transform: translate(2px, 2px);
+            box-shadow: 4px 4px 0px var(--accent);
+        }
+
+        h1 {
+            font-size: 3.2rem;
+            font-weight: 700;
+            margin-bottom: 0.2rem;
+            line-height: 1;
+            text-transform: uppercase;
+        }
+
+        h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-transform: uppercase;
+        }
+
+        h2::after {
+            content: "";
+            flex: 1;
+            height: 4px; /* Línea más gruesa retro */
+            background: var(--border-color);
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.2rem;
+            color: var(--text-main);
+        }
+
+        .role-title {
+            color: var(--accent);
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        p {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            font-size: 1.6rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--accent);
+            color: #ffffff !important; /* Siempre blanco en el botón acento */
+            padding: 0.6rem 1.5rem;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            border: 3px solid var(--border-color);
+            box-shadow: 4px 4px 0px var(--border-color);
+            transition: all 0.1s;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Corrección de color para el modo oscuro en el botón primario */
+        [data-theme="dark"] .btn {
+            color: var(--bg-color) !important; 
+        }
+
+        .btn:hover {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px var(--border-color);
+        }
+
+        .btn-outline {
+            background-color: var(--card-bg);
+            color: var(--text-main) !important;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 0;
+            margin-bottom: 1.5rem;
+            border: 4px solid var(--border-color);
+            box-shadow: var(--shadow-offset) var(--shadow-offset) 0px var(--border-color);
+            transition: transform 0.1s ease, box-shadow 0.1s ease;
+        }
+
+        .card:hover {
+            transform: translate(2px, 2px);
+            box-shadow: 4px 4px 0px var(--border-color);
+        }
+
+        /* --- TIMELINE --- */
+        .timeline-item {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+            border-left: 4px solid var(--border-color);
+            position: relative;
+        }
+
+        /* Cuadradito en vez de círculo para la timeline */
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: -12px;
+            top: 5px;
+            width: 16px;
+            height: 16px;
+            background-color: var(--accent);
+            border: 3px solid var(--border-color);
+        }
+
+        .timeline-date {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+            display: inline-block;
+            background: var(--card-bg);
+            border: 3px solid var(--border-color);
+            padding: 2px 8px;
+            text-transform: uppercase;
+        }
+
+        .timeline-item ul {
+            list-style-type: square;
+            margin-left: 1.5rem;
+            margin-top: 0.5rem;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        ul {
+            list-style-position: inside;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-main);
+            border-top: 4px solid var(--border-color);
+            margin-top: 2rem;
+            background-color: var(--card-bg);
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column-reverse;
+                text-align: center;
+                padding-top: 4.5rem;
+            }
+            .hero-image img {
+                width: 180px;
+                height: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CONTROL SWITCHERS (Theme & Lang) -->
+    <div class="controls-container">
+        <!-- THEME SWITCHER -->
+        <div class="switch-wrapper theme-switch">
+            <span class="control-label active" id="lbl-light">LGT</span>
+            <label class="switch">
+                <input type="checkbox" id="theme-toggle" onchange="toggleTheme(this)">
+                <span class="slider"></span>
+            </label>
+            <span class="control-label" id="lbl-dark">DRK</span>
+        </div>
+
+        <!-- LANG SWITCHER -->
+        <div class="switch-wrapper lang-switch">
+            <span class="control-label active" id="lbl-es">ES</span>
+            <label class="switch">
+                <input type="checkbox" id="lang-toggle" onchange="toggleLang(this)">
+                <span class="slider"></span>
+            </label>
+            <span class="control-label" id="lbl-en">EN</span>
+        </div>
+    </div>
+
+    <!-- HERO SECTION -->
+    <header>
+        <div class="hero-text">
+            <h1>Bruno Aresu Barella</h1>
+            <div class="subtitle" data-i18n="hero_sub">Game Producer & Systems Engineer</div>
+            <p data-i18n="hero_desc">Combinando arquitectura de software, análisis funcional y dirección creativa para estructurar y escalar proyectos rentables en la industria de los videojuegos.</p>
+            <a href="#experience" class="btn" data-i18n="hero_btn1">Ver Trayectoria</a>
+            <a href="mailto:bruno.aresubarella@gmail.com" class="btn btn-outline" data-i18n="hero_btn2">Contacto</a>
+        </div>
+        <div class="hero-image">
+            <img src="https://i.postimg.cc/jdXKdtPC/IMG-4840.jpg" alt="Bruno Aresu Barella">
+        </div>
+    </header>
+
+    <!-- EXPERIENCE SECTION -->
+    <section id="experience">
+        <h2 data-i18n="exp_title">Experiencia Laboral</h2>
+        
+        <div class="timeline-item">
+            <span class="timeline-date" data-i18n="date_itsme">Enero 2026 - Act</span>
+            <h3 data-i18n="title_itsme">Studio Head, Game Producer & Designer</h3>
+            <div class="role-title">ItsMeGames</div>
+            <p data-i18n="desc_itsme">Director general del estudio independiente. Diseño y producción del <i>action roguelite</i> "Layer 8" en Godot 4.</p>
+            <ul>
+                <li data-i18n="b1_itsme">Gestión del equipo núcleo (Arte, Programación, Level Design y Legal/Comunidad).</li>
+                <li data-i18n="b2_itsme">Presupuestos y postulación exitosa a fondos de inversión y programas de aceleración (Marzo 2026).</li>
+            </ul>
+        </div>
+
+        <div class="timeline-item">
+            <span class="timeline-date" data-i18n="date_tc">Mayo 2025 - Act</span>
+            <h3 data-i18n="title_tc">Analista Funcional</h3>
+            <div class="role-title" data-i18n="role_tc">Tribunal de Cuentas de Córdoba</div>
+            <p data-i18n="desc_tc">Traducción de requerimientos y normativas a especificaciones técnicas para desarrollo de software.</p>
+            <ul>
+                <li data-i18n="b1_tc">Diseño de sistemas administrativos a gran escala.</li>
+                <li data-i18n="b2_tc">Gestión de expectativas con <i>stakeholders</i> gubernamentales.</li>
+            </ul>
+        </div>
+
+        <div class="timeline-item">
+            <span class="timeline-date" data-i18n="date_doc">Marzo 2026 - Act</span>
+            <h3 data-i18n="title_doc">Docente Universitario</h3>
+            <div class="role-title">UTN-FRC</div>
+            <p data-i18n="desc_doc">Profesor en Ingeniería en Sistemas de Información. Brecha teoría-práctica de la industria tecnológica.</p>
+            <ul>
+                <li data-i18n="b1_doc">Planificación académica y evaluación.</li>
+                <li data-i18n="b2_doc">Mentoría técnica de buenas prácticas.</li>
+            </ul>
+        </div>
+
+        <div class="timeline-item">
+            <span class="timeline-date" data-i18n="date_twitch">2022 - Feb 2026</span>
+            <h3 data-i18n="title_twitch">Content Creator</h3>
+            <div class="role-title">Twitch (itsmebrunito_)</div>
+            <p data-i18n="desc_twitch">Gestión de comunidad estable de <i>gaming</i> y entretenimiento en vivo.</p>
+            <ul>
+                <li data-i18n="b1_twitch">Estrategias de retención, marketing B2C y <i>engagement</i>.</li>
+                <li data-i18n="b2_twitch">Ejecución de eventos de alto tráfico.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- CASE STUDIES SECTION -->
+    <section id="cases">
+        <h2 data-i18n="cases_title">Producción Destacada</h2>
+        <div class="card">
+            <h3>Layer 8</h3>
+            <div class="role-title" data-i18n="cases_role">Proyecto Insignia | Action Roguelite</div>
+            <p data-i18n="cases_desc">Desarrollo y dirección general:</p>
+            <ul>
+                <li data-i18n="cases_b1"><strong>Arq. Godot 4:</strong> Escalabilidad procedural.</li>
+                <li data-i18n="cases_b2"><strong>Pipeline Unificado:</strong> Sincronización ágil (Arte, Código, Niveles).</li>
+                <li data-i18n="cases_b3"><strong>Financiación:</strong> Estandarización nivel AAA.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- EDUCATION SECTION -->
+    <section id="education">
+        <h2 data-i18n="edu_title">Educación</h2>
+        
+        <div class="timeline-item">
+            <span class="timeline-date" data-i18n="edu_unir_date">En Curso</span>
+            <h3 data-i18n="edu_unir_title">Maestría Desarrollo Videojuegos</h3>
+            <div class="role-title">UNIR</div>
+            <p data-i18n="edu_unir_desc">Gestión de proyectos, <i>bizdev</i>, monetización y estándares europeos.</p>
+        </div>
+
+        <div class="timeline-item">
+            <span class="timeline-date" data-i18n="edu_utn_date">Graduado 2025</span>
+            <h3 data-i18n="edu_utn_title">Ingeniería en Sistemas</h3>
+            <div class="role-title">UTN-FRC</div>
+            <p data-i18n="edu_utn_desc">Arquitectura de software, datos complejos y gestión integral.</p>
+        </div>
+    </section>
+
+    <!-- SKILLS SECTION -->
+    <section id="skills">
+        <h2 data-i18n="skills_title">Herramientas</h2>
+        <div class="skills-grid">
+            <div class="card">
+                <h3 data-i18n="skills_prod">Producción & BizDev</h3>
+                <ul>
+                    <li data-i18n="sp1">Ágiles (Scrum, Kanban)</li>
+                    <li data-i18n="sp2">GDDs Comerciales</li>
+                    <li data-i18n="sp3">Presupuestos (Burn rate)</li>
+                    <li data-i18n="sp4">Pitching & Fondos</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3 data-i18n="skills_eng">Ingeniería & Análisis</h3>
+                <ul>
+                    <li data-i18n="se1">Arquitectura Software</li>
+                    <li>Godot 4 (GDScript / C#)</li>
+                    <li data-i18n="se3">Análisis Funcional</li>
+                    <li data-i18n="se4">Git Version Control</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <h3 data-i18n="footer_txt" style="margin-bottom: 0.5rem;">¿Hablamos de producción?</h3>
+        <p style="margin-bottom: 1.5rem; font-size: 1.2rem; font-weight: 700;">
+            <a href="mailto:bruno.aresubarella@gmail.com" style="color: var(--text-main); text-decoration: none; margin-right: 15px;">📧 Correo</a>
+            <a href="https://wa.me/543512133660" target="_blank" style="color: var(--text-main); text-decoration: none;">📱 +54 351 213-3660</a>
+        </p>
+        <a href="https://www.itsmegames.com/" target="_blank" class="btn btn-outline">ItsMeGames</a>
+        <a href="https://www.linkedin.com/in/bruno-aresu-barella/" target="_blank" class="btn btn-outline">LinkedIn</a>
+        <p style="margin-top: 1.5rem;"><small>&copy; 2026 Bruno Aresu. <span data-i18n="footer_copy">Derechos reservados.</span></small></p>
+    </footer>
+
+    <!-- TRANSLATION & THEME SCRIPT -->
+    <script>
+        // THEME LOGIC
+        function toggleTheme(checkbox) {
+            const htmlTag = document.documentElement;
+            if (checkbox.checked) {
+                htmlTag.setAttribute('data-theme', 'dark');
+                document.getElementById('lbl-light').classList.remove('active');
+                document.getElementById('lbl-dark').classList.add('active');
+            } else {
+                htmlTag.removeAttribute('data-theme');
+                document.getElementById('lbl-dark').classList.remove('active');
+                document.getElementById('lbl-light').classList.add('active');
+            }
+        }
+
+        // TRANSLATION LOGIC
+        const i18n = {
+            es: {
+                hero_sub: "Game Producer & Systems Engineer",
+                hero_desc: "Combinando arquitectura de software, análisis funcional y dirección creativa para estructurar y escalar proyectos rentables en la industria de los videojuegos.",
+                hero_btn1: "Ver Trayectoria",
+                hero_btn2: "Contacto",
+                
+                exp_title: "Experiencia Laboral",
+                date_itsme: "Enero 2026 - Act",
+                title_itsme: "Studio Head, Game Producer & Designer",
+                desc_itsme: "Director general del estudio independiente. Diseño y producción del <i>action roguelite</i> 'Layer 8' en Godot 4.",
+                b1_itsme: "Gestión del equipo núcleo (Arte, Programación, Level Design y Legal/Comunidad).",
+                b2_itsme: "Presupuestos y postulación exitosa a fondos de inversión y programas de aceleración (Marzo 2026).",
+                
+                date_tc: "Mayo 2025 - Act",
+                title_tc: "Analista Funcional",
+                role_tc: "Tribunal de Cuentas de Córdoba",
+                desc_tc: "Traducción de requerimientos y normativas a especificaciones técnicas para desarrollo de software.",
+                b1_tc: "Diseño de sistemas administrativos a gran escala.",
+                b2_tc: "Gestión de expectativas con <i>stakeholders</i> gubernamentales.",
+                
+                date_doc: "Marzo 2026 - Act",
+                title_doc: "Docente Universitario",
+                desc_doc: "Profesor en Ingeniería en Sistemas de Información. Brecha teoría-práctica de la industria tecnológica.",
+                b1_doc: "Planificación académica y evaluación.",
+                b2_doc: "Mentoría técnica de buenas prácticas.",
+                
+                date_twitch: "2022 - Feb 2026",
+                title_twitch: "Content Creator",
+                desc_twitch: "Gestión de comunidad estable de <i>gaming</i> y entretenimiento en vivo.",
+                b1_twitch: "Estrategias de retención, marketing B2C y <i>engagement</i>.",
+                b2_twitch: "Ejecución de eventos de alto tráfico.",
+                
+                cases_title: "Producción Destacada",
+                cases_role: "Proyecto Insignia | Action Roguelite",
+                cases_desc: "Desarrollo y dirección general:",
+                cases_b1: "<strong>Arq. Godot 4:</strong> Escalabilidad procedural.",
+                cases_b2: "<strong>Pipeline Unificado:</strong> Sincronización ágil (Arte, Código, Niveles).",
+                cases_b3: "<strong>Financiación:</strong> Estandarización nivel AAA.",
+                
+                edu_title: "Educación",
+                edu_unir_date: "En Curso",
+                edu_unir_title: "Maestría Desarrollo Videojuegos",
+                edu_unir_desc: "Gestión de proyectos, <i>bizdev</i>, monetización y estándares europeos.",
+                edu_utn_date: "Graduado 2025",
+                edu_utn_title: "Ingeniería en Sistemas",
+                edu_utn_desc: "Arquitectura de software, datos complejos y gestión integral.",
+                
+                skills_title: "Herramientas",
+                skills_prod: "Producción & BizDev",
+                sp1: "Ágiles (Scrum, Kanban)",
+                sp2: "GDDs Comerciales",
+                sp3: "Presupuestos (Burn rate)",
+                sp4: "Pitching & Fondos",
+                skills_eng: "Ingeniería & Análisis",
+                se1: "Arquitectura Software",
+                se3: "Análisis Funcional",
+                se4: "Git Version Control",
+                
+                footer_txt: "¿Hablamos de producción?",
+                footer_copy: "Derechos reservados."
+            },
+            en: {
+                hero_sub: "Game Producer & Systems Engineer",
+                hero_desc: "Combining software architecture, functional analysis, and creative direction to structure and scale profitable projects in the video game industry.",
+                hero_btn1: "View Experience",
+                hero_btn2: "Contact",
+                
+                exp_title: "Work Experience",
+                date_itsme: "Jan 2026 - Present",
+                title_itsme: "Studio Head, Game Producer & Designer",
+                desc_itsme: "General director of the indie studio. Design and production of the commercial action roguelite 'Layer 8' in Godot 4.",
+                b1_itsme: "Core team management (Art, Code, Level Design, Legal/Community).",
+                b2_itsme: "Budgeting and successful submission to international investment funds and accelerators (March 2026).",
+                
+                date_tc: "May 2025 - Present",
+                title_tc: "Functional Analyst",
+                role_tc: "Court of Auditors (Córdoba)",
+                desc_tc: "Translating business requirements and regulations into tech specs for software teams.",
+                b1_tc: "Large-scale administrative system design.",
+                b2_tc: "Expectation management with governmental stakeholders.",
+                
+                date_doc: "Mar 2026 - Present",
+                title_doc: "University Professor",
+                desc_doc: "Information Systems Engineering Professor. Bridging the gap between theory and tech industry practices.",
+                b1_doc: "Academic planning and evaluation.",
+                b2_doc: "Technical mentoring on best practices.",
+                
+                date_twitch: "2022 - Feb 2026",
+                title_twitch: "Content Creator",
+                desc_twitch: "Management of a stable live gaming and entertainment community.",
+                b1_twitch: "Retention strategies, B2C marketing, and engagement.",
+                b2_twitch: "Execution of high-traffic streaming events.",
+                
+                cases_title: "Featured Production",
+                cases_role: "Flagship Project | Action Roguelite",
+                cases_desc: "General development and direction:",
+                cases_b1: "<strong>Godot 4 Arch:</strong> Procedural scalability.",
+                cases_b2: "<strong>Unified Pipeline:</strong> Agile sync (Art, Code, Levels).",
+                cases_b3: "<strong>Funding:</strong> AAA-level standardization.",
+                
+                edu_title: "Education",
+                edu_unir_date: "In Progress",
+                edu_unir_title: "Game Design & Dev Master's",
+                edu_unir_desc: "Project management, bizdev, monetization, and EU industry standards.",
+                edu_utn_date: "Graduated 2025",
+                edu_utn_title: "Information Systems Engineering",
+                edu_utn_desc: "Software architecture, complex data, and comprehensive management.",
+                
+                skills_title: "Tools & Skills",
+                skills_prod: "Production & BizDev",
+                sp1: "Agile (Scrum, Kanban)",
+                sp2: "Commercial GDDs",
+                sp3: "Budgeting (Burn rate)",
+                sp4: "Pitching & Funding",
+                skills_eng: "Engineering & Analysis",
+                se1: "Software Architecture",
+                se3: "Functional Analysis",
+                se4: "Git Version Control",
+                
+                footer_txt: "Let's talk production.",
+                footer_copy: "All rights reserved."
+            }
+        };
+
+        function toggleLang(checkbox) {
+            const lang = checkbox.checked ? 'en' : 'es';
+            
+            // UI Toggle Colors
+            document.getElementById('lbl-es').classList.toggle('active', !checkbox.checked);
+            document.getElementById('lbl-en').classList.toggle('active', checkbox.checked);
+
+            // Change Text Content
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (i18n[lang][key]) {
+                    el.innerHTML = i18n[lang][key];
+                }
+            });
+            
+            document.documentElement.lang = lang;
+        }
+    </script>
+</body>
+</html>
