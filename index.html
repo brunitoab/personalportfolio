@@ -5,98 +5,172 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bruno Aresu Barella | Game Producer & Systems Engineer</title>
     
-    <!-- Importamos una fuente Pixel Art legible -->
+    <!-- Tipografías alineadas con ItsMeGames: Fredoka (títulos), Satoshi (texto), VT323 (terminal) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=VT323&display=swap" rel="stylesheet">
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
 
     <style>
+        /* Paleta y tipografía alineadas con ItsMeGames */
         :root {
-            /* Estética Indie Pixel Art - Light Mode (Gameboy / Retro) */
-            --bg-color: #f4f4eb;
-            --text-main: #1a1a1a;
-            --text-muted: #555555;
-            --accent: #ff0044; /* Rojo Arcade */
-            --accent-hover: #cc0036;
+            --bg-color: #efefef;
+            --text-main: #222222;
+            --text-muted: #4a5565;
+            --accent: #187a34;          /* brand green */
+            --accent-hover: #12632a;
+            --tan: #e2a665;             /* brand tan */
+            --red: #e83f41;             /* brand red */
             --card-bg: #ffffff;
-            --border-color: #1a1a1a;
-            --shadow-offset: 6px;
+            --border-color: rgba(24, 122, 52, 0.12);
+            --border-strong: rgba(24, 122, 52, 0.25);
+            --accent-soft: rgba(24, 122, 52, 0.08);
+            --shadow: 0 2px 8px rgba(24, 122, 52, 0.08);
+            --shadow-hover: 0 8px 30px rgba(24, 122, 52, 0.12);
+            --grad: linear-gradient(90deg, #187a34, #e2a665);
+            --font-display: 'Fredoka', sans-serif;
+            --font-body: 'Satoshi', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --font-mono: 'VT323', ui-monospace, monospace;
         }
 
-        /* Variables para el Dark Mode (Cyberpunk / Night Arcade) */
         [data-theme="dark"] {
-            --bg-color: #121218;
-            --text-main: #f0f0f0;
-            --text-muted: #aaaaaa;
-            --accent: #ff0055; /* Magenta Neón (permite leer el texto blanco) */
-            --accent-hover: #e6004c;
-            --card-bg: #1e1e26;
-            --border-color: #f0f0f0;
+            --bg-color: #151815;
+            --text-main: #efefef;
+            --text-muted: #a3aab4;
+            --accent: #3fae5c;
+            --accent-hover: #55c271;
+            --card-bg: #1e221f;
+            --border-color: rgba(63, 174, 92, 0.15);
+            --border-strong: rgba(63, 174, 92, 0.35);
+            --accent-soft: rgba(63, 174, 92, 0.1);
+            --shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            --shadow-hover: 0 8px 30px rgba(63, 174, 92, 0.15);
+            --grad: linear-gradient(90deg, #3fae5c, #e2a665);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Pixelify Sans', monospace, sans-serif;
         }
+
+        html { scroll-behavior: smooth; }
+        section, header { scroll-margin-top: 80px; }
 
         body {
+            font-family: var(--font-body);
             background-color: var(--bg-color);
             color: var(--text-main);
-            line-height: 1.4;
+            line-height: 1.6;
             transition: background-color 0.3s, color 0.3s;
+            overflow-x: hidden;
         }
 
-        /* Espaciados reducidos y compactos */
+        /* Manchas de color de fondo, como en ItsMeGames */
+        body::before, body::after {
+            content: "";
+            position: fixed;
+            width: 28rem;
+            height: 28rem;
+            border-radius: 50%;
+            filter: blur(120px);
+            z-index: -1;
+            pointer-events: none;
+        }
+        body::before { top: 15%; right: -8rem; background: rgba(24, 122, 52, 0.08); }
+        body::after { bottom: 10%; left: -8rem; background: rgba(226, 166, 101, 0.1); }
+
         header, section {
             max-width: 900px;
             margin: 0 auto;
-            padding: 2.5rem 1.5rem; 
+            padding: 2.5rem 1.5rem;
         }
 
-        /* --- SWITCHERS (Top Left & Top Right) --- */
-        .controls-container {
+        /* --- TOP BAR (Theme / Nav / Lang) --- */
+        .topbar {
             position: fixed;
-            top: 15px;
-            width: 100%;
-            pointer-events: none; 
+            top: 0;
+            left: 0;
+            right: 0;
             z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 10px 20px;
+            background: color-mix(in srgb, var(--bg-color) 80%, transparent);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.3s;
         }
 
         .switch-wrapper {
-            position: absolute;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             background: var(--card-bg);
-            padding: 6px 12px;
-            border: 3px solid var(--border-color);
-            box-shadow: 4px 4px 0px var(--border-color);
-            pointer-events: auto;
-            transition: background-color 0.3s, border-color 0.3s;
+            padding: 4px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 999px;
+            box-shadow: var(--shadow);
+            transition: background-color 0.3s;
         }
 
-        /* Ubicaciones */
-        .theme-switch { left: 20px; }
-        .lang-switch { right: 20px; }
+        .nav-links {
+            display: flex;
+            gap: 1.6rem;
+            list-style: none;
+            margin: 0;
+        }
+
+        .nav-links li { margin: 0; }
+
+        .nav-links a {
+            position: relative;
+            font-family: var(--font-display);
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            letter-spacing: 0.03em;
+            padding: 6px 0;
+            transition: color 0.2s;
+        }
+
+        .nav-links a::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background: var(--grad);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover { color: var(--accent); }
+        .nav-links a:hover::after { width: 100%; }
 
         .control-label {
+            font-family: var(--font-display);
             color: var(--text-muted);
-            font-size: 1.1rem;
-            font-weight: 700;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
         }
 
         .control-label.active {
-            color: var(--accent);
+            color: var(--text-main);
+            font-weight: 700;
         }
 
-        /* Diseño Pixel para los Toggles */
+        /* Toggles redondeados */
         .switch {
             position: relative;
             display: inline-block;
-            width: 48px;
-            height: 24px;
+            width: 38px;
+            height: 20px;
         }
 
         .switch input { opacity: 0; width: 0; height: 0; }
@@ -104,27 +178,29 @@
         .slider {
             position: absolute;
             cursor: pointer;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-color: var(--bg-color);
-            border: 3px solid var(--border-color);
+            inset: 0;
+            background-color: var(--accent-soft);
+            border: 1px solid var(--border-strong);
+            border-radius: 999px;
             transition: .2s;
         }
 
         .slider:before {
             position: absolute;
             content: "";
-            height: 12px;
-            width: 12px;
-            left: 3px;
-            bottom: 3px;
-            background-color: var(--border-color);
+            height: 14px;
+            width: 14px;
+            left: 2px;
+            top: 2px;
+            border-radius: 50%;
+            background-color: var(--accent);
             transition: .2s;
         }
 
-        input:checked + .slider { background-color: var(--bg-color); }
-        input:checked + .slider:before { 
-            transform: translateX(24px); 
-            background-color: var(--accent);
+        input:checked + .slider { background-color: var(--accent); }
+        input:checked + .slider:before {
+            transform: translateX(18px);
+            background-color: #ffffff;
         }
 
         /* --- HERO SECTION --- */
@@ -132,38 +208,60 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 2rem;
-            padding-top: 5rem;
+            gap: 2.5rem;
+            padding-top: 7rem;
+            padding-bottom: 3.5rem;
         }
 
         .hero-text { flex: 1; }
 
-        .hero-image { flex-shrink: 0; }
+        .hero-image {
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .hero-image::before {
+            content: "";
+            position: absolute;
+            inset: -12px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, rgba(24, 122, 52, 0.25), rgba(226, 166, 101, 0.2));
+            filter: blur(30px);
+            z-index: -1;
+        }
 
         .hero-image img {
-            width: 240px;
-            height: 240px;
+            display: block;
+            width: 250px;
+            height: 250px;
             object-fit: cover;
-            border-radius: 0;
-            border: 4px solid var(--border-color);
-            box-shadow: var(--shadow-offset) var(--shadow-offset) 0px var(--accent);
-            transition: transform 0.1s ease, box-shadow 0.1s ease;
+            object-position: center 30%;
+            border-radius: 50%;
+            border: 6px solid var(--card-bg);
+            box-shadow: 0 10px 40px rgba(24, 122, 52, 0.18);
+            transition: transform 0.3s ease;
         }
 
-        .hero-image img:hover {
-            transform: translate(2px, 2px);
-            box-shadow: 4px 4px 0px var(--accent);
-        }
+        .hero-image img:hover { transform: scale(1.03); }
 
         h1 {
-            font-size: 3.2rem;
+            font-family: var(--font-display);
+            font-size: 3.6rem;
             font-weight: 700;
-            margin-bottom: 0.2rem;
-            line-height: 1;
+            margin-bottom: 0.6rem;
+            line-height: 1.05;
             text-transform: uppercase;
         }
 
+        .grad {
+            background: var(--grad);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
         h2 {
+            font-family: var(--font-display);
             font-size: 2rem;
             font-weight: 700;
             margin-bottom: 1.5rem;
@@ -172,121 +270,183 @@
             align-items: center;
             gap: 15px;
             text-transform: uppercase;
+            letter-spacing: 0.02em;
+            line-height: 1.15;
         }
 
         h2::after {
             content: "";
             flex: 1;
-            height: 4px;
-            background: var(--border-color);
+            height: 2px;
+            border-radius: 2px;
+            background: var(--grad);
+            opacity: 0.5;
         }
 
         h3 {
-            font-size: 1.5rem;
-            font-weight: 700;
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            font-weight: 600;
             margin-bottom: 0.2rem;
             color: var(--text-main);
         }
 
         .role-title {
+            font-family: var(--font-display);
             color: var(--accent);
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            margin-bottom: 0.6rem;
             text-transform: uppercase;
         }
 
         p {
             color: var(--text-muted);
-            font-size: 1.2rem;
+            font-size: 1.08rem;
             margin-bottom: 1rem;
         }
 
         .subtitle {
-            font-size: 1.6rem;
-            color: var(--text-muted);
-            margin-bottom: 1.5rem;
-            font-weight: 600;
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin-bottom: 1.2rem;
+            font-weight: 500;
         }
 
         .btn {
             display: inline-block;
+            font-family: var(--font-display);
             background-color: var(--accent);
-            color: #ffffff !important; 
-            padding: 0.6rem 1.5rem;
+            color: #ffffff !important;
+            padding: 0.75rem 1.6rem;
             text-decoration: none;
-            font-size: 1.2rem;
+            font-size: 0.95rem;
             font-weight: 700;
+            letter-spacing: 0.08em;
             text-transform: uppercase;
-            border: 3px solid var(--border-color);
-            box-shadow: 4px 4px 0px var(--border-color);
-            transition: all 0.1s;
+            border: 1px solid var(--accent);
+            border-radius: 12px;
+            transition: all 0.3s;
             margin-right: 0.5rem;
             margin-bottom: 0.5rem;
         }
 
         .btn:hover {
-            transform: translate(2px, 2px);
-            box-shadow: 2px 2px 0px var(--border-color);
+            background-color: var(--accent-hover);
+            box-shadow: 0 0 15px rgba(24, 122, 52, 0.3);
+            transform: translateY(-1px);
         }
 
         .btn-outline {
-            background-color: var(--card-bg);
-            color: var(--text-main) !important;
+            background-color: var(--accent-soft);
+            border-color: var(--border-strong);
+            color: var(--accent) !important;
+        }
+
+        .btn-outline:hover {
+            background-color: var(--accent);
+            color: #ffffff !important;
         }
 
         .card {
+            position: relative;
+            overflow: hidden;
             background-color: var(--card-bg);
-            padding: 1.5rem;
-            border-radius: 0;
+            padding: 1.8rem;
+            border-radius: 1rem;
             margin-bottom: 1.5rem;
-            border: 4px solid var(--border-color);
-            box-shadow: var(--shadow-offset) var(--shadow-offset) 0px var(--border-color);
-            transition: transform 0.1s ease, box-shadow 0.1s ease;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            transition: box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--grad);
         }
 
         .card:hover {
-            transform: translate(2px, 2px);
-            box-shadow: 4px 4px 0px var(--border-color);
+            border-color: var(--border-strong);
+            box-shadow: var(--shadow-hover);
         }
 
         /* --- TIMELINE --- */
         .timeline-item {
-            margin-bottom: 1.5rem;
-            padding-left: 1.5rem;
-            border-left: 4px solid var(--border-color);
+            margin-bottom: 1.2rem;
+            padding: 1.4rem 1.6rem;
+            background: color-mix(in srgb, var(--card-bg) 70%, transparent);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: 1rem;
             position: relative;
+            overflow: hidden;
+            transition: border-color 0.3s, box-shadow 0.3s;
         }
 
         .timeline-item::before {
             content: "";
             position: absolute;
-            left: -12px;
-            top: 5px;
-            width: 16px;
-            height: 16px;
-            background-color: var(--accent);
-            border: 3px solid var(--border-color);
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, var(--accent), var(--tan));
+            opacity: 0.5;
+            transition: opacity 0.3s;
         }
 
+        .timeline-item:hover {
+            border-color: var(--border-strong);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .timeline-item:hover::before { opacity: 1; }
+
         .timeline-date {
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--text-main);
-            margin-bottom: 0.5rem;
+            font-family: var(--font-display);
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            color: var(--accent);
+            margin-bottom: 0.6rem;
             display: inline-block;
-            background: var(--card-bg);
-            border: 3px solid var(--border-color);
-            padding: 2px 8px;
+            background: var(--accent-soft);
+            border: 1px solid var(--border-strong);
+            border-radius: 999px;
+            padding: 2px 12px;
             text-transform: uppercase;
         }
 
         .timeline-item ul {
-            list-style-type: square;
-            margin-left: 1.5rem;
+            list-style-type: none;
             margin-top: 0.5rem;
             color: var(--text-muted);
-            font-size: 1.2rem;
+            font-size: 1.05rem;
+        }
+
+        .timeline-item ul li,
+        .card > ul:not(.team-list) li {
+            position: relative;
+            padding-left: 1.2rem;
+        }
+
+        .timeline-item ul li::before,
+        .card > ul:not(.team-list) li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0.65em;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--tan);
         }
 
         .skills-grid {
@@ -296,41 +456,157 @@
         }
 
         ul {
-            list-style-position: inside;
+            list-style: none;
             color: var(--text-muted);
             margin-bottom: 1rem;
         }
 
-        li {
-            margin-bottom: 0.5rem;
+        li { margin-bottom: 0.5rem; }
+
+        strong { color: var(--text-main); }
+
+        /* --- GAME CARD --- */
+        .game-tag {
+            display: inline-block;
+            font-family: var(--font-mono);
+            font-size: 1.15rem;
+            letter-spacing: 0.04em;
+            background: #222222;
+            color: #efefef;
+            padding: 2px 12px;
+            border-radius: 6px;
+            margin-bottom: 0.9rem;
+        }
+
+        .game-tag .live { color: #4ade80; }
+
+        .hashtags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .hashtags span {
+            font-family: var(--font-display);
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 3px 12px;
+            border-radius: 999px;
+            background: var(--accent-soft);
+            border: 1px solid var(--border-strong);
+            color: var(--accent);
+        }
+
+        .game-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 0.8rem;
+            margin-bottom: 1.4rem;
+        }
+
+        .game-stats div {
+            border: 1px solid var(--border-color);
+            border-radius: 0.8rem;
+            padding: 0.7rem 1rem;
+            background: var(--bg-color);
+        }
+
+        .game-stats strong {
+            display: block;
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            font-weight: 700;
+            line-height: 1.2;
+            background: var(--grad);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .game-stats span {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .team-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.4rem;
+        }
+
+        .team-list li {
+            margin: 0;
+            font-size: 0.9rem;
+            border: 1px solid var(--border-color);
+            border-radius: 999px;
+            padding: 3px 12px;
+            background: var(--card-bg);
+            color: var(--text-main);
+        }
+
+        .team-list li b {
+            font-family: var(--font-display);
+            color: var(--accent);
         }
 
         footer {
             text-align: center;
-            padding: 2rem;
+            padding: 3rem 2rem 2rem;
             color: var(--text-main);
-            border-top: 4px solid var(--border-color);
+            border-top: 1px solid var(--border-color);
             margin-top: 2rem;
             background-color: var(--card-bg);
+            position: relative;
         }
+
+        footer::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--grad);
+        }
+
+        footer h3 { font-size: 1.8rem; }
 
         @media (max-width: 768px) {
             header {
                 flex-direction: column-reverse;
                 text-align: center;
-                padding-top: 4.5rem;
+                padding-top: 8.5rem;
             }
+            h1 { font-size: 2.6rem; }
             .hero-image img {
-                width: 180px;
-                height: 180px;
+                width: 190px;
+                height: 190px;
             }
+            .topbar {
+                flex-wrap: wrap;
+                padding: 8px 16px;
+            }
+            .nav-links {
+                order: 3;
+                width: 100%;
+                justify-content: space-between;
+                gap: 0.5rem;
+                overflow-x: auto;
+                scrollbar-width: none;
+            }
+            .nav-links::-webkit-scrollbar { display: none; }
+            .nav-links a { font-size: 13px; white-space: nowrap; }
+            section, header { scroll-margin-top: 110px; }
+            .timeline-item { padding: 1.2rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- CONTROL SWITCHERS (Theme & Lang) -->
-    <div class="controls-container">
+    <!-- TOP BAR (Theme / Nav / Lang) -->
+    <nav class="topbar">
         <!-- THEME SWITCHER -->
         <div class="switch-wrapper theme-switch">
             <span class="control-label active" id="lbl-light">LGT</span>
@@ -341,6 +617,14 @@
             <span class="control-label" id="lbl-dark">DRK</span>
         </div>
 
+        <ul class="nav-links">
+            <li><a href="#experience" data-i18n="nav_exp">Trayectoria</a></li>
+            <li><a href="#cases" data-i18n="nav_game">Juego</a></li>
+            <li><a href="#education" data-i18n="nav_edu">Educación</a></li>
+            <li><a href="#skills" data-i18n="nav_skills">Skills</a></li>
+            <li><a href="#contact" data-i18n="nav_contact">Contacto</a></li>
+        </ul>
+
         <!-- LANG SWITCHER -->
         <div class="switch-wrapper lang-switch">
             <span class="control-label active" id="lbl-es">ES</span>
@@ -350,19 +634,19 @@
             </label>
             <span class="control-label" id="lbl-en">EN</span>
         </div>
-    </div>
+    </nav>
 
     <!-- HERO SECTION -->
     <header>
         <div class="hero-text">
-            <h1>Bruno Aresu Barella</h1>
+            <h1>Bruno <span class="grad">Aresu Barella</span></h1>
             <div class="subtitle" data-i18n="hero_sub">Game Producer & Systems Engineer</div>
             <p data-i18n="hero_desc">Combinando arquitectura de software, análisis funcional y dirección creativa para estructurar y escalar proyectos rentables en la industria de los videojuegos.</p>
             <a href="#experience" class="btn" data-i18n="hero_btn1">Ver Trayectoria</a>
             <a href="mailto:bruno.aresubarella@gmail.com" class="btn btn-outline" data-i18n="hero_btn2">Contacto</a>
         </div>
         <div class="hero-image">
-            <img src="https://www.photo-pick.com/online/ueCUOMzw.link" alt="Bruno Aresu Barella">
+            <img src="assets/profile.jpg" alt="Bruno Aresu Barella">
         </div>
     </header>
 
@@ -374,9 +658,9 @@
             <span class="timeline-date" data-i18n="date_itsme">Enero 2026 - Act</span>
             <h3 data-i18n="title_itsme">Studio Head, Game Producer & Designer</h3>
             <div class="role-title">ItsMeGames</div>
-            <p data-i18n="desc_itsme">Director general del estudio independiente. Diseño y producción del <i>action roguelite</i> "Layer 8" en Unity.</p>
+            <p data-i18n="desc_itsme">Director general del estudio independiente. Diseño y producción del roguelite twin-stick <i>"The Kernel Keeper"</i> en Unity.</p>
             <ul>
-                <li data-i18n="b1_itsme">Gestión del equipo núcleo (Arte, Programación, Level Design y Legal/Comunidad).</li>
+                <li data-i18n="b1_itsme">Liderazgo de un equipo de 7 personas (Tech, Arte, Level Design, Sonido, UI/UX & QA, Legal/Comunidad).</li>
                 <li data-i18n="b2_itsme">Gestión de presupuestos operativos y planificación comercial del proyecto.</li>
             </ul>
         </div>
@@ -419,13 +703,39 @@
     <section id="cases">
         <h2 data-i18n="cases_title">Producción Destacada</h2>
         <div class="card">
-            <h3>Layer 8</h3>
-            <div class="role-title" data-i18n="cases_role">Proyecto Insignia | Action Roguelite</div>
-            <p data-i18n="cases_desc">Desarrollo y dirección general:</p>
-            <ul>
-                <li data-i18n="cases_b1"><strong>Arq. Unity:</strong> Escalabilidad procedural.</li>
-                <li data-i18n="cases_b2"><strong>Pipeline Unificado:</strong> Sincronización ágil (Arte, Código, Niveles).</li>
+            <div class="game-tag">&gt; KERNEL_KEEPER.SYS — LAYER 7 <span class="live">PLAYABLE</span></div>
+            <h3>The Kernel Keeper</h3>
+            <div class="role-title" data-i18n="cases_role">ItsMeGames | Founder &amp; Game Director</div>
+            <p data-i18n="cases_pitch">Un roguelite táctico twin-stick en un escritorio de los 90 convertido en campo de batalla.</p>
+            <div class="hashtags">
+                <span>#Roguelite</span><span>#TwinStick</span><span>#TechHorror</span><span>#Unity</span>
+            </div>
+
+            <div class="game-stats">
+                <div><strong>7</strong><span data-i18n="stat_team">personas en el equipo</span></div>
+                <div><strong data-i18n="stat_start_val">Ene 2026</strong><span data-i18n="stat_start">inicio de producción</span></div>
+                <div><strong>Layer 7</strong><span data-i18n="stat_proto">prototipo jugable en web</span></div>
+            </div>
+
+            <p data-i18n="cases_team">Lidero un equipo multidisciplinario:</p>
+            <ul class="team-list">
+                <li><b>Tech</b> Lead</li>
+                <li><b>Art</b> Lead</li>
+                <li><b>Level</b> Design &amp; Gameplay</li>
+                <li><b>Sound</b> Design</li>
+                <li><b>UI/UX</b>, Web &amp; QA</li>
+                <li><b>Legal</b> &amp; Community</li>
             </ul>
+
+            <p data-i18n="cases_desc">Mi rol:</p>
+            <ul>
+                <li data-i18n="cases_b1"><strong>Dirección y producción:</strong> visión creativa, roadmap, presupuesto y planificación comercial.</li>
+                <li data-i18n="cases_b2"><strong>Pipeline unificado:</strong> sincronización ágil entre arte, código y niveles.</li>
+                <li data-i18n="cases_b3"><strong>Arquitectura en Unity:</strong> sistemas pensados para escalar contenido procedural.</li>
+            </ul>
+
+            <a href="https://kernel-keeper-web.vercel.app/" target="_blank" rel="noopener" class="btn" data-i18n="cases_play">▶ Jugar prototipo</a>
+            <a href="https://www.itsmegames.com/kernelkeepergame" target="_blank" rel="noopener" class="btn btn-outline" data-i18n="cases_view">Ver el juego →</a>
         </div>
     </section>
 
@@ -473,14 +783,14 @@
     </section>
 
     <!-- FOOTER -->
-    <footer>
+    <footer id="contact">
         <h3 data-i18n="footer_txt" style="margin-bottom: 0.5rem;">¿Hablamos de producción?</h3>
         <p style="margin-bottom: 1.5rem; font-size: 1.2rem; font-weight: 700;">
-            <a href="mailto:bruno.aresubarella@gmail.com" style="color: var(--text-main); text-decoration: none; margin-right: 15px;">📧 Correo</a>
-            <a href="https://wa.me/543512133660" target="_blank" style="color: var(--text-main); text-decoration: none;">📱 +54 351 213-3660</a>
+            <a href="mailto:bruno.aresubarella@gmail.com" style="color: var(--text-main); text-decoration: none;">📧 bruno.aresubarella@gmail.com</a>
         </p>
-        <a href="https://www.itsmegames.com/" target="_blank" class="btn btn-outline">ItsMeGames</a>
-        <a href="https://www.linkedin.com/in/bruno-aresu-barella/" target="_blank" class="btn btn-outline">LinkedIn</a>
+        <a href="https://www.itsmegames.com/" target="_blank" rel="noopener" class="btn btn-outline">ItsMeGames</a>
+        <a href="https://www.linkedin.com/in/bruno-aresu-barella/" target="_blank" rel="noopener" class="btn btn-outline">LinkedIn</a>
+        <a href="https://www.instagram.com/itsmebrunito/" target="_blank" rel="noopener" class="btn btn-outline">Instagram</a>
         <p style="margin-top: 1.5rem;"><small>&copy; 2026 Bruno Aresu Barella. <span data-i18n="footer_copy">Derechos reservados.</span></small></p>
     </footer>
 
@@ -503,6 +813,11 @@
         // TRANSLATION LOGIC
         const i18n = {
             es: {
+                nav_exp: "Trayectoria",
+                nav_game: "Juego",
+                nav_edu: "Educación",
+                nav_skills: "Skills",
+                nav_contact: "Contacto",
                 hero_sub: "Game Producer & Systems Engineer",
                 hero_desc: "Combinando arquitectura de software, análisis funcional y dirección creativa para estructurar y escalar proyectos rentables en la industria de los videojuegos.",
                 hero_btn1: "Ver Trayectoria",
@@ -511,8 +826,8 @@
                 exp_title: "Experiencia Laboral",
                 date_itsme: "Enero 2026 - Act",
                 title_itsme: "Studio Head, Game Producer & Designer",
-                desc_itsme: "Director general del estudio independiente. Diseño y producción del <i>action roguelite</i> 'Layer 8' en Unity.",
-                b1_itsme: "Gestión del equipo núcleo (Arte, Programación, Level Design y Legal/Comunidad).",
+                desc_itsme: "Director general del estudio independiente. Diseño y producción del roguelite twin-stick <i>'The Kernel Keeper'</i> en Unity.",
+                b1_itsme: "Liderazgo de un equipo de 7 personas (Tech, Arte, Level Design, Sonido, UI/UX & QA, Legal/Comunidad).",
                 b2_itsme: "Gestión de presupuestos operativos y planificación comercial del proyecto.",
                 
                 date_cids: "Oct 2024 - Act",
@@ -534,10 +849,19 @@
                 b2_twitch: "Ejecución de eventos de alto tráfico.",
                 
                 cases_title: "Producción Destacada",
-                cases_role: "Proyecto Insignia | Action Roguelite",
-                cases_desc: "Desarrollo y dirección general:",
-                cases_b1: "<strong>Arq. Unity:</strong> Escalabilidad procedural.",
-                cases_b2: "<strong>Pipeline Unificado:</strong> Sincronización ágil (Arte, Código, Niveles).",
+                cases_role: "ItsMeGames | Founder &amp; Game Director",
+                cases_pitch: "Un roguelite táctico twin-stick en un escritorio de los 90 convertido en campo de batalla.",
+                stat_team: "personas en el equipo",
+                stat_start_val: "Ene 2026",
+                stat_start: "inicio de producción",
+                stat_proto: "prototipo jugable en web",
+                cases_team: "Lidero un equipo multidisciplinario:",
+                cases_desc: "Mi rol:",
+                cases_b1: "<strong>Dirección y producción:</strong> visión creativa, roadmap, presupuesto y planificación comercial.",
+                cases_b2: "<strong>Pipeline unificado:</strong> sincronización ágil entre arte, código y niveles.",
+                cases_b3: "<strong>Arquitectura en Unity:</strong> sistemas pensados para escalar contenido procedural.",
+                cases_play: "▶ Jugar prototipo",
+                cases_view: "Ver el juego →",
                 
                 edu_title: "Educación",
                 edu_unir_date: "En Curso",
@@ -561,6 +885,11 @@
                 footer_copy: "Derechos reservados."
             },
             en: {
+                nav_exp: "Experience",
+                nav_game: "Game",
+                nav_edu: "Education",
+                nav_skills: "Skills",
+                nav_contact: "Contact",
                 hero_sub: "Game Producer & Systems Engineer",
                 hero_desc: "Combining software architecture, functional analysis, and creative direction to structure and scale profitable projects in the video game industry.",
                 hero_btn1: "View Experience",
@@ -569,8 +898,8 @@
                 exp_title: "Work Experience",
                 date_itsme: "Jan 2026 - Present",
                 title_itsme: "Studio Head, Game Producer & Designer",
-                desc_itsme: "General director of the indie studio. Design and production of the commercial action roguelite 'Layer 8' in Unity.",
-                b1_itsme: "Core team management (Art, Code, Level Design, Legal/Community).",
+                desc_itsme: "General director of the indie studio. Design and production of the twin-stick roguelite <i>'The Kernel Keeper'</i> in Unity.",
+                b1_itsme: "Leading a 7-person team (Tech, Art, Level Design, Sound, UI/UX & QA, Legal/Community).",
                 b2_itsme: "Operational budgeting and commercial project planning.",
                 
                 date_cids: "Oct 2024 - Present",
@@ -592,10 +921,19 @@
                 b2_twitch: "Execution of high-traffic streaming events.",
                 
                 cases_title: "Featured Production",
-                cases_role: "Flagship Project | Action Roguelite",
-                cases_desc: "General development and direction:",
-                cases_b1: "<strong>Unity Arch:</strong> Procedural scalability.",
-                cases_b2: "<strong>Unified Pipeline:</strong> Agile sync (Art, Code, Levels).",
+                cases_role: "ItsMeGames | Founder &amp; Game Director",
+                cases_pitch: "A tactical twin-stick roguelite on a 90s desktop turned battlefield.",
+                stat_team: "people on the team",
+                stat_start_val: "Jan 2026",
+                stat_start: "production start",
+                stat_proto: "browser-playable prototype",
+                cases_team: "I lead a multidisciplinary team:",
+                cases_desc: "My role:",
+                cases_b1: "<strong>Direction &amp; production:</strong> creative vision, roadmap, budget, and commercial planning.",
+                cases_b2: "<strong>Unified pipeline:</strong> agile sync across art, code, and levels.",
+                cases_b3: "<strong>Unity architecture:</strong> systems built to scale procedural content.",
+                cases_play: "▶ Play the prototype",
+                cases_view: "View the game →",
                 
                 edu_title: "Education",
                 edu_unir_date: "In Progress",
