@@ -619,7 +619,7 @@
 
         <ul class="nav-links">
             <li><a href="#experience" data-i18n="nav_exp">Trayectoria</a></li>
-            <li><a href="#cases" data-i18n="nav_game">Juego</a></li>
+            <li><a href="#cases" data-i18n="nav_game">Proyectos</a></li>
             <li><a href="#education" data-i18n="nav_edu">Educación</a></li>
             <li><a href="#skills" data-i18n="nav_skills">Skills</a></li>
             <li><a href="#contact" data-i18n="nav_contact">Contacto</a></li>
@@ -701,7 +701,7 @@
 
     <!-- CASE STUDIES SECTION -->
     <section id="cases">
-        <h2 data-i18n="cases_title">Producción Destacada</h2>
+        <h2 data-i18n="cases_title">Proyectos</h2>
         <div class="card">
             <div class="game-tag">&gt; KERNEL_KEEPER.SYS — LAYER 7 <span class="live">PLAYABLE</span></div>
             <h3>The Kernel Keeper</h3>
@@ -736,6 +736,53 @@
 
             <a href="https://kernel-keeper-web.vercel.app/" target="_blank" rel="noopener" class="btn" data-i18n="cases_play">▶ Jugar prototipo</a>
             <a href="https://www.itsmegames.com/kernelkeepergame" target="_blank" rel="noopener" class="btn btn-outline" data-i18n="cases_view">Ver el juego →</a>
+        </div>
+
+        <div class="card">
+            <div class="game-tag">&gt; MEMORYCARD.APP — v1.4 <span class="live">LIVE</span></div>
+            <h3>MemoryCard</h3>
+            <div class="role-title" data-i18n="mc_role">Producto propio | Diseño de producto &amp; desarrollo</div>
+            <p data-i18n="mc_pitch"><em>"Your Gaming Life in Slot 1"</em>. Una red social para registrar, puntuar y reseñar los videojuegos que jugás, al estilo Letterboxd, con la estética de una memory card de los 90.</p>
+            <div class="hashtags">
+                <span>#Next.js</span><span>#React</span><span>#TypeScript</span><span>#Supabase</span><span>#IGDB</span>
+            </div>
+
+            <div class="game-stats">
+                <div><strong>v1.4</strong><span data-i18n="mc_stat1">en producción</span></div>
+                <div><strong>IGDB</strong><span data-i18n="mc_stat2">catálogo real de juegos</span></div>
+                <div><strong>ES / EN</strong><span data-i18n="mc_stat3">bilingüe e instalable (PWA)</span></div>
+            </div>
+
+            <p data-i18n="mc_diff">Lo que la diferencia de otras apps de catálogo:</p>
+            <ul>
+                <li data-i18n="mc_d1"><strong>Checkpoints:</strong> una bitácora por sesiones mientras jugás, que queda anidada en la reseña final.</li>
+                <li data-i18n="mc_d2"><strong>Shelved:</strong> dejar un juego en el estante con un motivo, sin castigar tu promedio.</li>
+                <li data-i18n="mc_d3"><strong>Save Blocks:</strong> cada partida guarda su contexto real (sistema, formato físico o digital, con quién jugaste).</li>
+                <li data-i18n="mc_d4"><strong>Vibe Tags:</strong> descubrir juegos por cómo te hacen sentir, no solo por su puntaje.</li>
+                <li data-i18n="mc_d5"><strong>Perfil cartucho:</strong> 4 juegos favoritos, gamertags que se copian con un clic y feed RSS propio.</li>
+            </ul>
+
+            <p data-i18n="mc_feat">Además:</p>
+            <ul class="team-list">
+                <li data-i18n="mc_f1">Explorar</li>
+                <li data-i18n="mc_f2">Ranking</li>
+                <li data-i18n="mc_f3">Listas</li>
+                <li data-i18n="mc_f4">Importar de Steam</li>
+                <li data-i18n="mc_f5">Resumen del año</li>
+                <li data-i18n="mc_f6">Insignias</li>
+                <li data-i18n="mc_f7">Comparar gustos</li>
+                <li data-i18n="mc_f8">Guías de logros</li>
+                <li data-i18n="mc_f9">Moderación</li>
+            </ul>
+
+            <p data-i18n="cases_desc">Mi rol:</p>
+            <ul>
+                <li data-i18n="mc_r1"><strong>Producto:</strong> concepto, spec funcional y los 5 diferenciales de producto.</li>
+                <li data-i18n="mc_r2"><strong>Diseño:</strong> sistema de diseño propio "Analogue Matte", con modo claro y oscuro.</li>
+                <li data-i18n="mc_r3"><strong>Desarrollo y release:</strong> Next.js + Supabase en Vercel, con versiones publicadas, pruebas automáticas y CI.</li>
+            </ul>
+
+            <a href="https://memorycard.itsmegames.com" target="_blank" rel="noopener" class="btn" data-i18n="mc_open">▶ Abrir la app</a>
         </div>
     </section>
 
@@ -814,7 +861,7 @@
         const i18n = {
             es: {
                 nav_exp: "Trayectoria",
-                nav_game: "Juego",
+                nav_game: "Proyectos",
                 nav_edu: "Educación",
                 nav_skills: "Skills",
                 nav_contact: "Contacto",
@@ -848,7 +895,7 @@
                 b1_twitch: "Estrategias de retención, marketing B2C y <i>engagement</i>.",
                 b2_twitch: "Ejecución de eventos de alto tráfico.",
                 
-                cases_title: "Producción Destacada",
+                cases_title: "Proyectos",
                 cases_role: "ItsMeGames | Founder &amp; Game Director",
                 cases_pitch: "Un roguelite táctico twin-stick en un escritorio de los 90 convertido en campo de batalla.",
                 stat_team: "personas en el equipo",
@@ -862,6 +909,24 @@
                 cases_b3: "<strong>Arquitectura en Unity:</strong> sistemas pensados para escalar contenido procedural.",
                 cases_play: "▶ Jugar prototipo",
                 cases_view: "Ver el juego →",
+                mc_role: "Producto propio | Diseño de producto &amp; desarrollo",
+                mc_pitch: "<em>\"Your Gaming Life in Slot 1\"</em>. Una red social para registrar, puntuar y reseñar los videojuegos que jugás, al estilo Letterboxd, con la estética de una memory card de los 90.",
+                mc_stat1: "en producción",
+                mc_stat2: "catálogo real de juegos",
+                mc_stat3: "bilingüe e instalable (PWA)",
+                mc_diff: "Lo que la diferencia de otras apps de catálogo:",
+                mc_d1: "<strong>Checkpoints:</strong> una bitácora por sesiones mientras jugás, que queda anidada en la reseña final.",
+                mc_d2: "<strong>Shelved:</strong> dejar un juego en el estante con un motivo, sin castigar tu promedio.",
+                mc_d3: "<strong>Save Blocks:</strong> cada partida guarda su contexto real (sistema, formato físico o digital, con quién jugaste).",
+                mc_d4: "<strong>Vibe Tags:</strong> descubrir juegos por cómo te hacen sentir, no solo por su puntaje.",
+                mc_d5: "<strong>Perfil cartucho:</strong> 4 juegos favoritos, gamertags que se copian con un clic y feed RSS propio.",
+                mc_feat: "Además:",
+                mc_f1: "Explorar", mc_f2: "Ranking", mc_f3: "Listas", mc_f4: "Importar de Steam", mc_f5: "Resumen del año",
+                mc_f6: "Insignias", mc_f7: "Comparar gustos", mc_f8: "Guías de logros", mc_f9: "Moderación",
+                mc_r1: "<strong>Producto:</strong> concepto, spec funcional y los 5 diferenciales de producto.",
+                mc_r2: "<strong>Diseño:</strong> sistema de diseño propio \"Analogue Matte\", con modo claro y oscuro.",
+                mc_r3: "<strong>Desarrollo y release:</strong> Next.js + Supabase en Vercel, con versiones publicadas, pruebas automáticas y CI.",
+                mc_open: "▶ Abrir la app",
                 
                 edu_title: "Educación",
                 edu_unir_date: "En Curso",
@@ -886,7 +951,7 @@
             },
             en: {
                 nav_exp: "Experience",
-                nav_game: "Game",
+                nav_game: "Projects",
                 nav_edu: "Education",
                 nav_skills: "Skills",
                 nav_contact: "Contact",
@@ -920,7 +985,7 @@
                 b1_twitch: "Retention strategies, B2C marketing, and engagement.",
                 b2_twitch: "Execution of high-traffic streaming events.",
                 
-                cases_title: "Featured Production",
+                cases_title: "Projects",
                 cases_role: "ItsMeGames | Founder &amp; Game Director",
                 cases_pitch: "A tactical twin-stick roguelite on a 90s desktop turned battlefield.",
                 stat_team: "people on the team",
@@ -934,6 +999,24 @@
                 cases_b3: "<strong>Unity architecture:</strong> systems built to scale procedural content.",
                 cases_play: "▶ Play the prototype",
                 cases_view: "View the game →",
+                mc_role: "Personal product | Product design &amp; development",
+                mc_pitch: "<em>\"Your Gaming Life in Slot 1\"</em>. A social network to log, rate, and review the games you play, Letterboxd-style, with the look of a 90s memory card.",
+                mc_stat1: "live in production",
+                mc_stat2: "real game catalog",
+                mc_stat3: "bilingual & installable (PWA)",
+                mc_diff: "What sets it apart from other catalog apps:",
+                mc_d1: "<strong>Checkpoints:</strong> a per-session log while you play, nested into the final review.",
+                mc_d2: "<strong>Shelved:</strong> put a game on the shelf with a reason, without hurting your average.",
+                mc_d3: "<strong>Save Blocks:</strong> every playthrough keeps its real context (system, physical or digital, who you played with).",
+                mc_d4: "<strong>Vibe Tags:</strong> discover games by how they make you feel, not just their score.",
+                mc_d5: "<strong>Cartridge profile:</strong> 4 favorite games, one-click copy gamertags, and a personal RSS feed.",
+                mc_feat: "Also:",
+                mc_f1: "Explore", mc_f2: "Rankings", mc_f3: "Lists", mc_f4: "Steam import", mc_f5: "Year in review",
+                mc_f6: "Badges", mc_f7: "Taste matching", mc_f8: "Achievement guides", mc_f9: "Moderation",
+                mc_r1: "<strong>Product:</strong> concept, functional spec, and the 5 core product differentiators.",
+                mc_r2: "<strong>Design:</strong> custom \"Analogue Matte\" design system, with light and dark modes.",
+                mc_r3: "<strong>Development &amp; release:</strong> Next.js + Supabase on Vercel, with versioned releases, automated tests, and CI.",
+                mc_open: "▶ Open the app",
                 
                 edu_title: "Education",
                 edu_unir_date: "In Progress",
